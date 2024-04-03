@@ -1,0 +1,14 @@
+{
+  "name": "ieo-first-react-app",
+  "version": "1.0.0",
+  "description": "CSC307 Web Dev Crash Course I",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "workspaces": [
+      "packages/*"
+  ]
+}

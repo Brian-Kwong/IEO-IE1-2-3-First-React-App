@@ -1,5 +1,6 @@
 // src/Table.jsx
 function TableHeader() {
+  /* Creates the table header */
   return (
     <thead>
       <tr>
@@ -12,6 +13,7 @@ function TableHeader() {
 }
 
 function TableBody(props) {
+  /* Creates the body table */
   const rows = props.characterData.map((row, index) => {
     return (
       <tr key={index}>
@@ -26,7 +28,7 @@ function TableBody(props) {
   return <tbody>{rows}</tbody>;
 }
 
-// src/Table.jsx
+/* Assembles the table */
 function Table(props) {
   return (
     <table>

@@ -20,6 +20,7 @@ function MyApp() {
     setCharacters([...characters, person]);
   }
 
+  /* Returns the table and form  */  
   return (
     <div className="container">
       <Table characterData={characters} removeCharacter={removeOneCharacter} />

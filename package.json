@@ -4,7 +4,7 @@
   "description": "CSC307 Web Dev Crash Course I",
   "main": "index.js",
   "scripts": {
-    "start": "vite",
+    "start": "cd ./packages/react-frontend && vite",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

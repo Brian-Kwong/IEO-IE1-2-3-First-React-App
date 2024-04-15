@@ -35,6 +35,30 @@ const users = {
 const app = express();
 const port = 8000;
 
+const checkIfValidUser = (user) => {
+  if (
+    user["name"] &&
+    typeof user["name"] == "string" &&
+    user["job"] &&
+    typeof user["job"] == "string" &&
+    user["id"] &&
+    typeof user["id"] == "string" &&
+    !users["users_list"].includes(user["id"])
+  ) {
+    return true;
+  }
+  return false;
+};
+
+const addUser = (user) => {
+  console.log(user);
+  if (!checkIfValidUser(user)) {
+    return null;
+  }
+  users["users_list"].push(user);
+  return user;
+};
+
 const findUserByName = (name) => {
   return users["users_list"].filter((user) => user["name"] === name);
 };
@@ -66,6 +90,15 @@ app.get("/users/:id", (req, res) => {
     res.status(404).send("Resource not found.");
   } else {
     res.send(result);
+  }
+});
+
+app.post("/users", (req, res) => {
+  const userToAdd = req.body;
+  if (addUser(userToAdd) === null) {
+    res.status(400).send("Invalid user.");
+  } else {
+    res.send();
   }
 });
 

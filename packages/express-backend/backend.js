@@ -1,5 +1,6 @@
 //backend.js
 import express from "express";
+import cors from "cors";
 
 //db
 const users = {
@@ -35,15 +36,21 @@ const users = {
 const app = express();
 const port = 8000;
 
+const generateId = () => {
+  let randomId = new Uint32Array(1);
+  randomId[0] = 0;
+  while (randomId[0] === 0 || users["users_list"].includes(randomId)) {
+    crypto.getRandomValues(randomId);
+  }
+  return randomId[0].toString();
+};
+
 const checkIfValidUser = (user) => {
   if (
     user["name"] &&
     typeof user["name"] == "string" &&
     user["job"] &&
-    typeof user["job"] == "string" &&
-    user["id"] &&
-    typeof user["id"] == "string" &&
-    !users["users_list"].includes(user["id"])
+    typeof user["job"] == "string"
   ) {
     return true;
   }
@@ -51,10 +58,10 @@ const checkIfValidUser = (user) => {
 };
 
 const addUser = (user) => {
-  console.log(user);
   if (!checkIfValidUser(user)) {
     return null;
   }
+  user["id"] = generateId();
   users["users_list"].push(user);
   return user;
 };
@@ -76,6 +83,7 @@ const findUserByNameAndJob = (name, job) => {
 const findUserById = (id) =>
   users["users_list"].find((user) => user["id"] === id);
 
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -113,10 +121,11 @@ app.get("/users/:id", (req, res) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
-  if (addUser(userToAdd) === null) {
+  const newUser = addUser(userToAdd);
+  if (newUser === null) {
     res.status(400).send("Invalid user.");
   } else {
-    res.send();
+    res.status(201).send(newUser);
   }
 });
 
@@ -129,8 +138,11 @@ app.delete("/users/:id", (req, res) => {
   if (result === undefined) {
     res.status(404).send("Resource not found.");
   } else {
-    delete users["users_list"][users["users_list"].indexOf(result)];
-    res.send();
+    const index = users["users_list"].indexOf(result);
+    users["users_list"] = users["users_list"]
+      .slice(0, index)
+      .concat(users["users_list"].slice(index + 1, users["users_list"].length));
+    res.status(204).send();
   }
 });
 

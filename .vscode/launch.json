@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Express Debugger",
       "url": "http://localhost:8080",
-      "webRoot": "${workspaceFolder}/packages/express-backend"
+      "webRoot": "${workspaceFolder}/packages/express-backend/"
     },
     {
       "type": "chrome",

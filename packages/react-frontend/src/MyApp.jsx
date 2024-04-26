@@ -12,7 +12,7 @@ function MyApp() {
     /* Finds the user */
     const findUserId = characters.filter((character, i) => {
       return i === index;
-    })[0]["id"];
+    })[0]["_id"];
     function removeUserDB(id) {
       return fetch(`Http://localhost:8000/users/${id}`, {
         method: "DELETE",
